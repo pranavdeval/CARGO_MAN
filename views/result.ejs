@@ -2,6 +2,8 @@
 <html>
     <head>
         <title>CARGO MANAGEMENT</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" 
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     </head>
     <body>
         <script type="text/javascript">
@@ -42,7 +44,8 @@
             
             var noRows = Math.floor(widShip/8);
             var noCols = Math.floor(lenShip/10);
-
+            
+            // Function to create a n-dimensional array
             function createArray(length) {
                 var arr = new Array(length || 0),
                     i = length;
@@ -67,7 +70,8 @@
                 }
                // cout<<"========================================="<<endl;
             }
-
+            
+            // Comparator function for sort
             function compareValues(key, order = 'asc') {
                 return function innerSort(a, b) {
                     if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
@@ -95,10 +99,12 @@
             var weight1 = 0;
             var weight2 = 0;
 
-            if(noRows%2 == 0) {
+            if(noRows%2 === 0) {
                 var mid = noRows/2;
-                var row1 = mid-1,col1 = 0;
-                var row2 = mid,col2 = 0;
+                var row1 = mid-1;
+                var row2 = mid;
+                var col1 = 0;
+                var col2 = 0;
                 var height1 = levShip-1;
                 var height2 = levShip-1;
 
@@ -106,20 +112,19 @@
                     var vec = [];
                     vec = destCon[i];
                     vec.sort(compareValues('length','desc'));
-                    var cnt = 0;
+                    
                     for(var j=0;j<vec.length;j++) {
-                        cnt++;
                         if(weight1 <= weight2) {
-                            if(col1 + vec[j].length/10 <= noCols) {
+                            if(col1 + (vec[j].length/10) <= noCols) {
                                 for(var k=0;k<(vec[j].length)/10;k++) {
                                     ship[height1][row1][col1+k] = vec[j].id;
                                 }
                                 col1 = col1 + vec[j].length/10;
-                                weight1 = weight1 + vec[j].weight/10;
+                                weight1 = weight1 + vec[j].weight;
                             }
                             else {
                                 row1 = row1 - 1;
-                                if(row1 === -1) {
+                                if(row1 < 0) {
                                     row1 = mid-1;
                                     height1 = height1 - 1;
                                 }
@@ -127,7 +132,7 @@
                                 for(var k=0;k<(vec[j].length)/10;k++) {
                                     ship[height1][row1][col1+k] = vec[j].id;
                                 }
-                                col1 = col1 + vec[j].length/10;
+                                col1 = col1 + (vec[j].length)/10;
                                 weight1 = weight1 + vec[j].weight;
                             }
                         }
@@ -141,8 +146,8 @@
                             }
                             else {
                                 row2 = row2 + 1;
-                                if(row2 == noRows) {
-                                    height2 = height2-1;
+                                if(row2 === noRows) {
+                                    height2 = height2 - 1;
                                     row2 = mid;
                                 }
                                 col2 = 0;
@@ -158,8 +163,10 @@
             }
             else {
                 var mid = Math.floor(noRows/2);
-                var row1 = mid,col1 = 0;
-                var row2 = mid+1,col2 = 0;
+                var row1 = mid;
+                var row2 = mid+1;
+                var col1 = 0;
+                var col2 = 0;
                 var height1 = levShip-1;
                 var height2 = levShip-1;
 
@@ -167,21 +174,19 @@
                     var vec = [];
                     vec = destCon[i];
                     vec.sort(compareValues('length','desc'));
-                    var cnt = 0;
                     for(var j=0;j<vec.length;j++) {
-                        cnt++;
                         if(weight1 <= weight2) {
                             if(col1 + vec[j].length/10 <= noCols) {
                                 for(var k=0;k<(vec[j].length)/10;k++) {
                                     ship[height1][row1][col1+k] = vec[j].id;
                                 }
                                 col1 = col1 + vec[j].length/10;
-                                weight1 = weight1 + vec[j].weight/10;
+                                weight1 = weight1 + vec[j].weight;
                             }
                             else {
                                 row1 = row1 - 1;
-                                if(row1 === -1) {
-                                    row1 = mid-1;
+                                if(row1 < 0) {
+                                    row1 = mid;
                                     height1 = height1 - 1;
                                 }
                                 col1 = 0;
@@ -202,9 +207,9 @@
                             }
                             else {
                                 row2 = row2 + 1;
-                                if(row2 == noRows) {
-                                    height2 = height2-1;
-                                    row2 = mid;
+                                if(row2 === noRows) {
+                                    height2 = height2 - 1;
+                                    row2 = mid+1;
                                 }
                                 col2 = 0;
                                 for(var k=0;k<vec[j].length/10;k++) {
@@ -219,17 +224,24 @@
             }
             
             for(var h = levShip-1;h>=0;h--) {
-                //cout<<"Level -"<<h<<endl;
+                document.writeln('<table class="table table-striped">');
+                document.writeln('<h2 class = "display-3 text-center">Level ' + (levShip - 1 - h) + "</h2>");
                 for(var r = 0;r<noRows;r++) {
+                    document.writeln("<tr>");
+                    
                     for(var c = 0;c < noCols;c++) {
-                        document.writeln(ship[h][r][c]);
+                 
+                        document.writeln("<td>" + ship[h][r][c] + "</td>");
                     }
-                    document.writeln("<br>");
-                    //cout<<endl;
+                    
+                    document.writeln("</tr>");
+                   // document.writeln("<br>");
+                    
                 }
-                document.writeln("<br>");
-                document.writeln("<br>");
-               // cout<<"========================================="<<endl;
+                
+                document.writeln("</table>");
+                //document.writeln("<br>");
+                //document.writeln("<br>");
             }
 
             // document.writeln(lenShip);
