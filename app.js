@@ -100,6 +100,6 @@ app.get("/ship/:id/result",function(req,res) {
     });
 });
 
-app.listen(3000,'127.0.0.1',function() {
+app.listen(3002,'127.0.0.1',function() {
     console.log("Server has started!");
 });

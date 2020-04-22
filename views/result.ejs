@@ -149,8 +149,69 @@
                                 for(var k=0;k<vec[j].length/10;k++) {
                                     ship[height2][row2][col2+k] = vec[j].id;
                                 }
-                                col2 = col2 + ele.length/10;
-                                weight2 = weight2 + ele.weight;
+                                col2 = col2 + vec[j].length/10;
+                                weight2 = weight2 + vec[j].weight;
+                            }
+                        }
+                    }
+                }
+            }
+            else {
+                var mid = Math.floor(noRows/2);
+                var row1 = mid,col1 = 0;
+                var row2 = mid+1,col2 = 0;
+                var height1 = levShip-1;
+                var height2 = levShip-1;
+
+                for(var i=noDes;i>=1;i--) {
+                    var vec = [];
+                    vec = destCon[i];
+                    vec.sort(compareValues('length','desc'));
+                    var cnt = 0;
+                    for(var j=0;j<vec.length;j++) {
+                        cnt++;
+                        if(weight1 <= weight2) {
+                            if(col1 + vec[j].length/10 <= noCols) {
+                                for(var k=0;k<(vec[j].length)/10;k++) {
+                                    ship[height1][row1][col1+k] = vec[j].id;
+                                }
+                                col1 = col1 + vec[j].length/10;
+                                weight1 = weight1 + vec[j].weight/10;
+                            }
+                            else {
+                                row1 = row1 - 1;
+                                if(row1 === -1) {
+                                    row1 = mid-1;
+                                    height1 = height1 - 1;
+                                }
+                                col1 = 0;
+                                for(var k=0;k<(vec[j].length)/10;k++) {
+                                    ship[height1][row1][col1+k] = vec[j].id;
+                                }
+                                col1 = col1 + vec[j].length/10;
+                                weight1 = weight1 + vec[j].weight;
+                            }
+                        }
+                        else {
+                            if(col2 + vec[j].length/10 <= noCols) {
+                                for(var k=0;k<vec[j].length/10;k++) {
+                                    ship[height2][row2][col2+k] = vec[j].id;   
+                                }
+                                col2 = col2 + vec[j].length/10;
+                                weight2 = weight2 + vec[j].weight;
+                            }
+                            else {
+                                row2 = row2 + 1;
+                                if(row2 == noRows) {
+                                    height2 = height2-1;
+                                    row2 = mid;
+                                }
+                                col2 = 0;
+                                for(var k=0;k<vec[j].length/10;k++) {
+                                    ship[height2][row2][col2+k] = vec[j].id;
+                                }
+                                col2 = col2 + vec[j].length/10;
+                                weight2 = weight2 + vec[j].weight;
                             }
                         }
                     }
@@ -171,11 +232,11 @@
                // cout<<"========================================="<<endl;
             }
 
-            document.writeln(lenShip);
-            document.writeln(widShip);
-            document.writeln(capShip);
-            document.writeln(levShip);
-            document.writeln(noDes);
+            // document.writeln(lenShip);
+            // document.writeln(widShip);
+            // document.writeln(capShip);
+            // document.writeln(levShip);
+            // document.writeln(noDes);
             
 
 
